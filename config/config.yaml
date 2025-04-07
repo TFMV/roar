@@ -1,0 +1,42 @@
+# Roar Configuration
+
+# Kafka settings
+kafka:
+  brokers: "localhost:9092"
+  topics:
+    - "logs"
+    - "metrics"
+  schema_registry: "http://localhost:8081"
+  batch_size: 1024
+
+# Stream settings
+stream:
+  ttl: "60s"
+  buffer_limit: "100MB"
+
+# Flight server settings
+flight:
+  port: 8080
+  host: "localhost"
+
+# DuckDB settings
+duckdb:
+  enabled: false
+  path: "roar.duckdb"
+
+# Observability settings
+observability:
+  # Metrics
+  metrics:
+    enabled: false
+    address: ":9090"
+
+  # Profiling
+  profiling:
+    enabled: false
+    address: ":6060"
+
+  # Logging
+  logging:
+    level: "info"
+    format: "json"
