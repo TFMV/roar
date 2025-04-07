@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"os"
 	"path/filepath"
 	"sync"
 	"time"
@@ -250,6 +251,26 @@ func arrowToDuckDBType(arrowType arrow.DataType) (string, error) {
 
 // ensureDir ensures a directory exists
 func ensureDir(dir string) error {
-	// In a real implementation, we would create the directory if it doesn't exist
+	// Check if directory exists
+	info, err := os.Stat(dir)
+	if err == nil {
+		// Path exists, check if it's a directory
+		if !info.IsDir() {
+			return fmt.Errorf("path exists but is not a directory: %s", dir)
+		}
+		return nil // Directory exists
+	}
+
+	// Check if error is "not exists"
+	if !os.IsNotExist(err) {
+		return fmt.Errorf("failed to check directory: %w", err)
+	}
+
+	// Create directory with permission 0755 (rwxr-xr-x)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return fmt.Errorf("failed to create directory %s: %w", dir, err)
+	}
+
+	log.Debug().Str("dir", dir).Msg("Created directory")
 	return nil
 }

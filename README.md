@@ -5,7 +5,7 @@ Roar is a high-performance Arrow Flight gateway for Apache Kafka. It consumes me
 ## Features
 
 - **Real-time Kafka Ingestion**: Stream data directly from Kafka topics
-- **Arrow Flight Integration**: Expose topics as Arrow Flight streams (using Arrow v18)
+- **Arrow Flight Integration**: Expose topics as Arrow Flight streams
 - **Ephemeral Streams**: Efficient memory management with TTL controls
 - **Intelligent Back Pressure**: Built-in stream buffer management and memory monitoring
 - **DuckDB Persistence**: Optionally persist streams to DuckDB tables
@@ -230,20 +230,6 @@ reader = client.do_get(info.endpoints[0].ticket)
 # Convert to pandas DataFrame
 df = reader.read_all().to_pandas()
 print(df)
-```
-
-### DuckDB
-
-```sql
--- Install Arrow Flight extension
-INSTALL 'arrow';
-LOAD 'arrow';
-
--- Query Roar stream directly
-SELECT * FROM arrow_flight_scan(
-    'grpc://localhost:8080',
-    'logs'
-);
 ```
 
 ## Monitoring
